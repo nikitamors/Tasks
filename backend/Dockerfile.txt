@@ -1,0 +1,17 @@
+# Используем официальный образ Python в качестве базового
+FROM python:3.10-slim
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем файл зависимостей
+COPY requirements.txt .
+
+# Устанавливаем зависимости
+RUN pip install -r requirements.txt
+
+# Копируем все остальные файлы приложения
+COPY . .
+
+# Указываем команду для запуска приложения
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "task_management.wsgi:application"]
